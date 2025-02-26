@@ -1,0 +1,15 @@
+[project]
+name = "ProtoCol"
+version = "0.1.0"
+description = "Application for controlling a Protogen head"
+
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+
+classifiers = [
+"Private :: Do Not Upload"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

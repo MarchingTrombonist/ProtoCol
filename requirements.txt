@@ -1,0 +1,3 @@
+# Editable Git install with no remote (ProtoCol==0.1.0)
+-e d:\coding\github\protocol
+pygame==2.6.1
