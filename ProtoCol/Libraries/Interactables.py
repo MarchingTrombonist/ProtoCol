@@ -2,12 +2,11 @@
 A library of interactable elements to add to ProtoCol UI.
 """
 
-from collections import namedtuple
+from typing import Union, Tuple, Sequence
 
 # Private vars
 _next_id = 0
 _Interactable_Dict = {}
-_Interactable_Dict_Simple = {}
 
 
 # Private Classes
@@ -22,19 +21,16 @@ class __Interactable:
         Parameters
         ----------
         label : str, default None
-            Displayed label.
+            Displayed label. None results in label being InteractableType_ID, e.g., "Button_0".
         """
-        global _next_id, _Interactable_Dict, _Interactable_Dict_Simple
+        global _next_id, _Interactable_Dict
         self.__id = _next_id
+        if label == None:
+            label = f"{type(self).__name__}_{self.__id}"
         self.label = label
         _next_id += 1
 
-        # Appends a namedtuple to the dict list of all interactables
-        _Interactable_Dict[self.__id] = namedtuple(
-            type(self).__name__, ["id", "type", "object"]
-        )(id=self.__id, type=type(self).__name__, object=self)
-
-        _Interactable_Dict_Simple[self.__id] = self
+        _Interactable_Dict[self.__id] = self
         return
 
     def getID(self):
@@ -47,18 +43,6 @@ class __Interactable:
             ID of object.
         """
         return self.__id
-
-    # TODO: unneeded? no reason for label to be private probably
-    def getLabel(self):
-        """
-        Return label of Interactable.
-
-        Returns
-        -------
-        str
-            Label of Interactable.
-        """
-        return self.label
 
     def toString(self, debug: bool = False, as_dict: bool = False):
         """
@@ -100,6 +84,24 @@ class __Interactable:
 
 # Public Classes
 class Button(__Interactable):
+    """
+    Extends Interactable class.
+
+    Attributes
+    ----------
+    label : str, default None
+        Displayed label.
+
+    action : function, default print("Click!")
+        Function to be called on trigger.
+
+    args : any
+        These parameters will be passed to the provided function.
+
+    kwargs : any
+        These parameters will be passed to the provided function.
+    """
+
     def __init__(self, action=lambda: print("Click!"), *args, **kwargs):
         """
         Create a button.
@@ -205,25 +207,42 @@ def getByID(id: int, debug: bool = False):
     """
     TODO
     """
-    if debug:
-        return _Interactable_Dict.get(id)
-    return _Interactable_Dict.get(id).object
+    return _Interactable_Dict.get(id)
 
 
-def getAll(debug: bool = False):
+def getAll(
+    kinds: Union[type, Tuple[type]] = None,
+    ids: Union[int, Sequence[int,]] = None,
+):
     """
-    Return all Interactables.
+    Return all Interactables with optional conditions.
+
+    Returns *intersection* of all conditions. Default for any unspecified conditions is all items.
 
     Parameters
     ----------
-    debug : bool, default False
-        If True, returns dict with more info.
+    kinds : type or tuple of type, default None
+        Returns only objects of specified class/es. Default returns all.
+
+    ids: int or sequence of ints, default None
+        Returns only objects with IDs in sequence. Default returns all.
 
     Returns
     -------
-    dict
-        All Interactables as dict.
+    list
+        All Interactables as list.
     """
-    if debug:
-        return _Interactable_Dict
-    return _Interactable_Dict_Simple
+    if kinds == None:
+        kinds = __Interactable
+
+    if ids == None:
+        ids = range(len(_Interactable_Dict))
+
+    if type(ids) == int:
+        ids = (ids,)
+
+    return [
+        (k, v)
+        for k, v in _Interactable_Dict.items()
+        if issubclass(type(v), kinds) and v.getID() in ids
+    ]

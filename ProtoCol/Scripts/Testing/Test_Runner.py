@@ -18,7 +18,7 @@ b = Button(b_func, id=1)
 t = Toggle()
 s = Slider()
 items = [b, t, s]
-b.trigger()
+# b.trigger()
 # b.toString()
 
 # for i in items:
@@ -36,3 +36,12 @@ b.trigger()
 #     print(k, v)
 # for k, v in intbl._Interactable_Dict_Simple.items():
 #     print(k, v)
+
+# print(getAll(True).values())
+print(getAll((Button, Slider)))
+print(getAll(Toggle))
+print(getAll(ids=0))
+print(getAll(ids=(0, 1)))
+print(getAll(ids=[0, 1]))
+print(getAll(kinds=Toggle, ids=range(2)))
+# print([(k, type(v)) for k, v in intbl._Interactable_Dict.items()])

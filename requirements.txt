@@ -1,3 +1,2 @@
-# Editable Git install with no remote (ProtoCol==0.1.0)
--e d:\coding\github\protocol
+-e git+https://github.com/MarchingTrombonist/ProtoCol.git@7bd45d04d9b6ad2f9113160d21b24ac059f4da0c#egg=ProtoCol
 pygame==2.6.1
