@@ -9,3 +9,4 @@
       - [ ] block programming maybe
   - [ ] location and values of UI
   - [ ] Saving/loading
+- [ ] Dino game

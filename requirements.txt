@@ -1,2 +1,1 @@
--e git+https://github.com/MarchingTrombonist/ProtoCol.git@7bd45d04d9b6ad2f9113160d21b24ac059f4da0c#egg=ProtoCol
-pygame==2.6.1
+-e git+https://github.com/MarchingTrombonist/ProtoCol.git@730a72fa5f2c4ceff6f6a22194b6d0bd92c54db9#egg=ProtoCol
